@@ -2,6 +2,8 @@
 
 Draw a room to exact measure and move the furniture around until it fits.
 
+Use it at [tapesketch.com](https://tapesketch.com).
+
 It is a single HTML file. There is no account and no server, and nothing leaves your browser. Type any length and it is kept exactly, shown to the millimeter (or 1/16 in). With the mouse, things snap to 0.5 cm (1/8 in); hold Shift to place them freely.
 
 ## What it does
@@ -17,7 +19,7 @@ It is a single HTML file. There is no account and no server, and nothing leaves 
 - Centimeters or feet and inches, and a light or dark theme.
 - Export a PNG image of one copy or of all of them, a parts list, or a PDF to scale (1:50 or 1:100 on A4, 1/4" or 1/8" to the foot on Letter) that you can measure with a ruler.
 
-## Use it
+## Run your own copy
 
 Serve the folder with any static server, for example `python3 -m http.server`, and open it in the browser.
 
