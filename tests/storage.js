@@ -57,6 +57,13 @@ async function main(){
             await page.evaluate('walls.length === 1 && pieces.length > 3'));
   check('the sample project shows an opening in the wall',
             await page.evaluate('walls[0].some(point => point.openings.length)'));
+  // It shows what copies are for, and a first visit must not open in red.
+  check('the sample project shows several layouts as copies',
+            await page.evaluate('projects[openProjectId].copies.length') > 1);
+  const sampleProblems = await page.evaluate(`projects[openProjectId].copies.flatMap((copy, index) => {
+    loadCopy(index); return findProblems().map(problem => copy.name + ': ' + problem.text); })`);
+  await page.evaluate('loadCopy(0); draw()');
+  check('no copy of the sample project has problems', sampleProblems.length === 0, sampleProblems.join(' | '));
   check('the sample project is marked for removal when the first user project is created',
             await page.evaluate('projects[openProjectId].isSample') === true);
   await page.evaluate('pieces.push({x:0,y:0,w:10,h:10,angle:0,shape:"rect",label:""}); draw()');

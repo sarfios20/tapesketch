@@ -1435,31 +1435,53 @@ function importProject(name, text){
 // It is a kitchen rather than a bedroom on purpose. This is what everyone
 // sees first, and buyers install kitchens, renovate and fit appliances:
 // if they first see a bed, they think the tool is for furnishing their room.
-// Typical kitchen dimensions: 3.60 x 2.60, with a 60-deep L-shaped counter,
-// in modules as sold. Pieces sit apart rather than on top of each other
-// because each has its name and dimensions in the center; piled together,
-// none can be read.
+// Typical kitchen dimensions: 3.60 x 2.60 between wall axes, so the inner
+// faces are at 5 and 355 across, 5 and 255 down. Pieces stand flush against
+// those faces, in modules as sold, and the door's swing stays clear: the
+// sample opens with no problems. Pieces sit apart rather than on top of each
+// other because each has its name and dimensions in the center; piled
+// together, none can be read.
+//
+// Three copies of the same room, one layout each, so the first thing on
+// screen is what copies are for: comparing arrangements side by side.
+const SAMPLE_WALLS = [[
+  {x:0,   y:0,   thickness:10, openings:[{offset:205, width:110, kind:'window', swing:1}]},
+  {x:360, y:0,   thickness:10, openings:[]},
+  // Opens inward (swing:-1) so the arc stays within the frame.
+  {x:360, y:260, thickness:10, openings:[{offset:55,  width:80,  kind:'door',  swing:-1}]},
+  {x:0,   y:260, thickness:10, openings:[]},
+  {x:0,   y:0,   thickness:10, openings:[]},
+]];
+const samplePiece = (label, x, y, w, h, shape = 'rect') => ({x, y, w, h, angle:0, shape, label});
 const SAMPLE_PROJECT = {
   isSample: true,
   formatVersion: PROJECT_FORMAT_VERSION,
-  copies: [{name:'copy 1',
-    walls: [[
-      {x:0,   y:0,   thickness:10, openings:[{offset:205, width:110, kind:'window', swing:1}]},
-      {x:360, y:0,   thickness:10, openings:[]},
-      // Opens inward (swing:-1) so the arc stays within the frame.
-      {x:360, y:260, thickness:10, openings:[{offset:55,  width:80,  kind:'door',  swing:-1}]},
-      {x:0,   y:260, thickness:10, openings:[]},
-      {x:0,   y:0,   thickness:10, openings:[]},
-    ]],
-    pieces: [
-      {x:0,   y:0,   w:170, h:60, angle:0, shape:'rect',    label:'counter'},
-      {x:170, y:0,   w:70,  h:60, angle:0, shape:'rect',    label:'sink'},
-      {x:300, y:0,   w:60,  h:65, angle:0, shape:'rect',    label:'fridge'},
-      {x:0,   y:60,  w:60,  h:120, angle:0, shape:'rect',   label:'counter'},
-      {x:0,   y:180, w:60,  h:60, angle:0, shape:'rect',    label:'washer'},
-      {x:170, y:140, w:90,  h:90, angle:0, shape:'ellipse', label:'table'},
-    ],
-  }],
+  copies: [
+    {name:'L shape', walls: SAMPLE_WALLS, pieces: [
+      samplePiece('counter', 5,   5,   165, 60),
+      samplePiece('sink',    170, 5,   70,  60),
+      samplePiece('fridge',  295, 5,   60,  65),
+      samplePiece('counter', 5,   65,  60,  120),
+      samplePiece('washer',  5,   185, 60,  60),
+      samplePiece('table',   80,  150, 90,  90, 'ellipse'),
+    ]},
+    {name:'U shape', walls: SAMPLE_WALLS, pieces: [
+      samplePiece('counter', 5,   5,   170, 60),
+      samplePiece('sink',    175, 5,   70,  60),
+      samplePiece('counter', 245, 5,   110, 60),
+      samplePiece('fridge',  295, 65,  60,  65),
+      samplePiece('washer',  5,   65,  60,  60),
+      samplePiece('counter', 5,   125, 60,  120),
+    ]},
+    {name:'island', walls: SAMPLE_WALLS, pieces: [
+      samplePiece('counter', 5,   5,   150, 60),
+      samplePiece('sink',    155, 5,   70,  60),
+      samplePiece('counter', 225, 5,   70,  60),
+      samplePiece('fridge',  295, 5,   60,  65),
+      samplePiece('island',  70,  120, 150, 60),
+      samplePiece('washer',  5,   185, 60,  60),
+    ]},
+  ],
   shared: {points:[], pieces:[]},
 };
 
